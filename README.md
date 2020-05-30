@@ -1,2 +1,3 @@
-# yu_saku
-WINE on web browser by WASM
+# LinuxOnBrowser
+
+Deploy your Linux on your browser!
