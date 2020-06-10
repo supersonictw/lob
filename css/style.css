@@ -21,6 +21,18 @@
     margin: auto;
 }
 
+#screen_box {
+    width: auto;
+    height: 630px;
+    overflow:scroll;
+    background-color: black;
+}
+
+#screen_container {
+    background-color: black;
+    text-align: left;
+}
+
 @media (min-width: 768px) {
     .bd-placeholder-img-lg {
         font-size: 3.5rem;

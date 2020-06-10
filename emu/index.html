@@ -27,14 +27,10 @@
 
 	<div class="container" id="console">
 		<pre style="display: none" id="loading"></pre>
-		<div class="card-deck mb-3 text-center">
-			<div class="card mb-4 shadow-sm">
-				<div class="card-body">
-					<div id="screen_container" style="display: none">
-						<div id="screen"></div>
-						<canvas id="vga"></canvas>
-					</div>
-				</div>
+		<div id="screen_box" class="card mb-4 shadow-sm">
+			<div id="screen_container" style="display: none">
+				<div id="screen"></div>
+				<canvas id="vga"></canvas>
 			</div>
 		</div>
 		<div class="card-deck mb-3 text-center" style="display: none">
@@ -94,7 +90,8 @@
 						</label>
 					</div>
 					<div>
-						<textarea cols="40" rows="12" id="serial" style="display: none">This is the serial console. Whatever you type or paste here will be sent to COM1. In Linux it can be accessed with `cat /dev/ttyS0`</textarea>
+						<textarea cols="40" rows="12" id="serial"
+							style="display: none">This is the serial console. Whatever you type or paste here will be sent to COM1. In Linux it can be accessed with `cat /dev/ttyS0`</textarea>
 					</div>
 					<div>
 						<textarea class="phone_keyboard"></textarea>
