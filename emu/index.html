@@ -28,6 +28,11 @@
 
 	<div class="container" id="console">
 		<pre style="display: none" id="loading"></pre>
+		<div class="mb-3 text-center">
+			<input class="btn btn-success" type="button" value="Pause" id="run">
+			<input class="btn btn-warning" type="button" value="Reset" id="reset">
+			<input class="btn btn-danger" type="button" value="Exit" id="exit">
+		</div>
 		<div id="screen_box" class="card mb-4 shadow-sm">
 			<div id="screen_container" style="display: none">
 				<div id="screen"></div>
@@ -101,30 +106,39 @@
 			</div>
 		</div>
 		<div id="runtime_options" style="display: none">
-			<input type="button" value="Pause" id="run">
-			<input type="button" value="Reset" id="reset">
-			<input type="button" value="Exit" id="exit">
-			<input type="button" value="Send Ctrl-Alt-Del" id="ctrlaltdel">
-			<input type="button" value="Send Alt-Tab" id="alttab">
-			<input type="button" value="Get floppy image" id="get_fda_image">
-			<input type="button" value="Get second floppy image" id="get_fdb_image">
-			<input type="button" value="Get hard disk image" id="get_hda_image">
-			<input type="button" value="Get second hard disk image" id="get_hdb_image">
-			<input type="button" value="Get cdrom image" id="get_cdrom_image">
-			<input type="button" value="Save State" id="save_state">
-			<input type="button" value="Load State" id="load_state"> <input type="file" style="display: none"
-				id="load_state_input">
-			<input type="button" value="Memory Dump" id="memory_dump">
-			<input type="button" value="Disable mouse" id="toggle_mouse">
-			<input type="button" value="Lock mouse" id="lock_mouse">
-			<input type="button" value="Go fullscreen" id="fullscreen">
-			<input type="button" value="Take screenshot (only graphic modes)" id="take_screenshot">
-
-			<label>
-				Scale:
-				<input type="number" min="0.25" step="0.25" value="1.0" id="scale" style="width: 50px">
-			</label>
-
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Send Ctrl-Alt-Del" id="ctrlaltdel">
+				<input class="btn btn-primary" type="button" value="Send Alt-Tab" id="alttab">
+			</div>
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Get floppy image" id="get_fda_image">
+				<input class="btn btn-primary" type="button" value="Get second floppy image" id="get_fdb_image">
+				<input class="btn btn-primary" type="button" value="Get hard disk image" id="get_hda_image">
+				<input class="btn btn-primary" type="button" value="Get second hard disk image" id="get_hdb_image">
+				<input class="btn btn-primary" type="button" value="Get cdrom image" id="get_cdrom_image">
+			</div>
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Save State" id="save_state">
+				<input class="btn btn-primary" type="button" value="Load State" id="load_state"> <input type="file"
+					style="display: none" id="load_state_input">
+			</div>
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Memory Dump" id="memory_dump">
+			</div>
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Disable mouse" id="toggle_mouse">
+				<input class="btn btn-primary" type="button" value="Lock mouse" id="lock_mouse">
+			</div>
+			<div class="mb-1">
+				<input class="btn btn-primary" type="button" value="Go fullscreen" id="fullscreen">
+				<input class="btn btn-primary" type="button" value="Take screenshot (only graphic modes)"
+					id="take_screenshot">
+				<label>
+					Scale:
+					<input class="input-group-text" type="number" min="0.25" step="0.25" value="1.0" id="scale"
+						style="width: 50px">
+				</label>
+			</div>
 			<br>
 			<label id="change_fda" style="display: none">
 				Change floppy:

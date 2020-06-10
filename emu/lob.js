@@ -8,6 +8,6 @@ switch (function () {
     return null;
 }()) {
     case null:
-        window.location.href = "?profile=default";
+        window.location.href = "?profile=linux";
         break;
 }
