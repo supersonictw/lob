@@ -7,7 +7,14 @@ switch (function () {
     if (r != null) return unescape(r[2]);
     return null;
 }()) {
+    case "default":
+    case "linux":
+        break;
+
     case null:
         window.location.href = "?profile=linux";
         break;
+
+    default:
+        alert("Unknown Operating System");
 }
