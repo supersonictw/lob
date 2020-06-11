@@ -12,7 +12,7 @@ switch (function () {
         break;
 
     case null:
-        window.location.href = "?profile=linux";
+        window.location.href = "?profile=default";
         break;
 
     default:
