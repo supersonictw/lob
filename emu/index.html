@@ -49,7 +49,7 @@
 				<canvas id="vga"></canvas>
 			</div>
 		</div>
-		<div class="card-deck mb-3 text-center d-none">
+		<div id="runtime_infos_box" class="card-deck mb-3 text-center d-none">
 			<div class="card mb-4 shadow-sm">
 				<div class="card-body">
 					<div id="runtime_infos" style="display: none">
@@ -92,7 +92,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-deck mb-3 text-center d-none">
+		<div id="filesystem_panel_box" class="card-deck mb-3 text-center d-none">
 			<div class="card mb-4 shadow-sm">
 				<div class="card-body">
 					<div id="filesystem_panel" style="display: none">
@@ -163,15 +163,8 @@
 		</div>
 	</div>
 
-	<div class="d-none">
+	<div id="boot_options_box" class="d-none">
 		<div id="boot_options">
-			<h4>Quickstart</h4>
-			<input type="button" value="Linux 3.18 (8.3 MB)" id="start_linux3">
-			- With internet access, telnet, ping, wget and links. Takes about 60 seconds to boot. Run
-			<code>udhcpc</code> for networking. Exchange files through <code>/mnt/</code>.<br>
-
-			<br>
-			<hr>
 			<h4>Setup</h4>
 			<table>
 				<tr>
@@ -180,45 +173,31 @@
 						<input type="file" id="cd_image">
 					</td>
 				</tr>
-
 				<tr>
 					<td>Floppy disk image</td>
-					<td> <input type="file" id="floppy_image"><br></td>
+					<td> <input type="file" id="floppy_image"></td>
 				</tr>
-
 				<tr>
 					<td>Hard drive disk image</td>
-					<td><input type="file" id="hd_image"><br></td>
+					<td><input type="file" id="hd_image"></td>
 				</tr>
-
 				<tr>
-					<td colspan="2"><small><small>Disk images are not uploaded to the
-								server</small></small>
-						<hr>
+					<td colspan="2">
+                        <small>Disk images are not uploaded to theserver</small>
 					</td>
 				</tr>
-
 				<tr>
 					<td>Memory size</td>
 					<td>
-						<input id="memory_size" type="number" value="128" min="16" max="2048" step="16">
-						MB<br>
+						<input id="memory_size" type="number" value="128" min="16" max="2048" step="16"> MB
 					</td>
 				</tr>
-
 				<tr>
 					<td>Video Memory size</td>
 					<td>
 						<input id="video_memory_size" type="number" value="8" min="1" max="128" step="1"> MB<br>
 					</td>
 				</tr>
-
-				<tr>
-					<td colspan="2">
-						<hr>
-					</td>
-				</tr>
-
 				<tr>
 					<td>Boot order</td>
 					<td>
@@ -233,7 +212,6 @@
 					</td>
 				</tr>
 			</table>
-
 			<br>
 			<button id="start_emulation">Start Emulation</button>
 		</div>
