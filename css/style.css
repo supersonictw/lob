@@ -22,10 +22,14 @@
     margin: auto;
 }
 
+#loading {
+    white-space: pre-wrap;
+}
+
 #intro_box {
     display: inline-block;
     word-break: break-word;
-    width:500px;
+    width: 500px;
     height: auto;
     margin: 0 auto;
     text-align: left;
@@ -34,7 +38,7 @@
 #screen_box {
     width: auto;
     min-height: 630px;
-    overflow:scroll;
+    overflow: scroll;
     background-color: black;
 }
 
