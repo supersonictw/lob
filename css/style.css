@@ -23,7 +23,7 @@
 
 #screen_box {
     width: auto;
-    height: 630px;
+    min-height: 630px;
     overflow:scroll;
     background-color: black;
 }
