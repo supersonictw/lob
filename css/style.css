@@ -1,6 +1,7 @@
 .logo {
-    max-width: 100%;
-    height: auto;
+    width: auto;
+    padding-top: 10px;
+    max-height: 150px;
 }
 
 .mini-logo {
@@ -19,6 +20,15 @@
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
     margin: auto;
+}
+
+#intro_box {
+    display: inline-block;
+    word-break: break-word;
+    width:500px;
+    height: auto;
+    margin: 0 auto;
+    text-align: left;
 }
 
 #screen_box {
