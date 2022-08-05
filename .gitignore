@@ -12,7 +12,7 @@
 *.out
 
 # Dependency directories (remove the comment below to include it)
-# vendor/
+node_modules/
 
 # For v86 # https://github.com/supersonictw/v86
 v86/

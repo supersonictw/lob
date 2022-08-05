@@ -1,0 +1,11 @@
+{
+  "name": "lob",
+  "version": "0.0.1",
+  "description": "This is a virtual machine running GNU/Linux on browser with the forked v86.js.",
+  "dependencies": {
+    "serve": "^14.0.1"
+  },
+  "scripts": {
+    "start": "serve public/"
+  }
+}
