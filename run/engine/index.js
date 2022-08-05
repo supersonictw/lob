@@ -5,8 +5,42 @@ var app = new Vue({
     el: '#console',
     data: () => ({
         emulator: null,
+        systemProfile: {
+            default: {
+                memory_size: 64 * 1024 * 1024,
+                vga_memory_size: 8 * 1024 * 1024,
+                cdrom: {
+                    url: "./images/system.iso",
+                    size: 37748736,
+                },
+                autostart: true,
+            },
+            vanilla: {
+                memory_size: 8 * 1024 * 1024,
+                vga_memory_size: 2 * 1024 * 1024,
+                cdrom: {
+                    url: "./images/vanilla.iso",
+                    size: 37748736,
+                },
+                autostart: true,
+            }
+        }
     }),
     methods: {
+        boot(baseProfile) {
+            const system = { ...baseProfile };
+            // BIOS Setup
+            system.bios = {
+                url: "./bios/seabios.bin",
+            };
+            system.vga_bios = {
+                url: "./bios/vgabios.bin",
+            };
+            // Screen Container
+            system.screen_container = document.getElementById("screen-container");
+            // Mount Machine
+            this.emulator = new V86Starter(system);
+        },
         saveFile() {
             if (!this.emulator) {
                 console.error('No emulator loaded');
@@ -42,22 +76,9 @@ var app = new Vue({
         }
     },
     mounted() {
-        const screenContainer = document.getElementById("screen-container");
-        this.emulator = new V86Starter({
-            memory_size: 128 * 1024 * 1024,
-            vga_memory_size: 2 * 1024 * 1024,
-            screen_container: screenContainer,
-            bios: {
-                url: "./bios/seabios.bin",
-            },
-            vga_bios: {
-                url: "./bios/vgabios.bin",
-            },
-            cdrom: {
-                url: "./images/system.iso",
-                size: 37748736,
-            },
-            autostart: true,
-        });
+        const params = new URLSearchParams(window.location.search);
+        const profileName = params.get("profile");
+        const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
+        this.boot(baseProfile);
     }
 });
