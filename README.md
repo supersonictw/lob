@@ -2,8 +2,7 @@
 
 Deploy your Linux on your browser!
 
-This is a virtual machine running GNU/Linux
-based on javascript with the forked v86.js.
+This is a virtual machine running GNU/Linux on browser with the forked v86.js.
 
 ## Feature
 
