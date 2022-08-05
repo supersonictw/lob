@@ -1,0 +1,54 @@
+.logo {
+    width: auto;
+    padding-top: 10px;
+    max-height: 150px;
+}
+
+.mini-logo {
+    max-width: 10%;
+    height: auto;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin: auto;
+}
+
+#loading {
+    white-space: pre-wrap;
+}
+
+#intro_box {
+    display: inline-block;
+    word-break: break-word;
+    width: 500px;
+    height: auto;
+    margin: 0 auto;
+    text-align: left;
+}
+
+#screen-box {
+    width: auto;
+    min-height: 630px;
+    overflow: scroll;
+    background-color: black;
+}
+
+#screen-container {
+    background-color: black;
+    text-align: left;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
