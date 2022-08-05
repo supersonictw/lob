@@ -35,14 +35,14 @@
     text-align: left;
 }
 
-#screen_box {
+#screen-box {
     width: auto;
     min-height: 630px;
     overflow: scroll;
     background-color: black;
 }
 
-#screen_container {
+#screen-container {
     background-color: black;
     text-align: left;
 }
