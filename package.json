@@ -6,6 +6,6 @@
     "serve": "^14.0.1"
   },
   "scripts": {
-    "start": "serve -s public"
+    "start": "serve public/"
   }
 }
