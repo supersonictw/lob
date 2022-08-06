@@ -12,7 +12,7 @@ var app = new Vue({
                 vga_memory_size: 8 * 1024 * 1024,
                 cdrom: {
                     url: "./images/system.iso",
-                    size: 19922944,
+                    size: 23068672,
                 }
             },
             vanilla: {
