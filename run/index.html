@@ -28,8 +28,8 @@
 		<h1 class="lead">Deploy your Linux on Browser!</h1>
 	</div>
 
-	<div class="container" id="console">
-		<div id="screen-box" class="card mb-4 shadow-sm">
+	<div id="console" class="container">
+		<div id="screen-box" class="card mb-4 shadow-sm" @click="handleClickOnBox">
 			<div id="screen-container" ref="screenContainer">
 				<div id="screen"></div>
 				<canvas id="vga"></canvas>

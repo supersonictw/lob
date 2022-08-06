@@ -5,6 +5,7 @@ var app = new Vue({
     el: '#console',
     data: () => ({
         emulator: null,
+        emulatorExtendedInfo: {},
         systemProfile: {
             default: {
                 memory_size: 64 * 1024 * 1024,
@@ -24,22 +25,83 @@ var app = new Vue({
                 },
                 autostart: true,
             }
-        }
+        },
     }),
+    computed: {
+        screenContainer() {
+            return this.$refs.screenContainer;
+        },
+        emulatorEventMethods() {
+            return [
+                {
+                    name: "mouse-enable",
+                    method: (isEnabled) => {
+                        this.emulatorExtendedInfo.mouseEnabled = isEnabled;
+                    }
+                }
+            ];
+        },
+    },
     methods: {
         boot(baseProfile) {
             const system = { ...baseProfile };
-            // BIOS Setup
+            // Setup WASM
+            system.wasm_path = "./engine/v86.wasm";
+            // Setup BIOS
             system.bios = {
                 url: "./bios/seabios.bin",
             };
             system.vga_bios = {
                 url: "./bios/vgabios.bin",
             };
+            // Setup Network Relay
+            system.network_relay_url = "wss://relay.widgetry.org/";
             // Screen Container
-            system.screen_container = document.getElementById("screen-container");
+            system.screen_container = this.screenContainer;
             // Mount Machine
             this.emulator = new V86Starter(system);
+            // Return Machine
+            return this.emulator;
+        },
+        setupMachineEventListener(machine) {
+            for (const e of this.emulatorEventMethods) {
+                machine.add_listener(e.name, e.method);
+            }
+        },
+        lockMouse() {
+            const body = document.body;
+            const method = body.requestPointerLock
+                || body.mozRequestPointerLock
+                || body.webkitRequestPointerLock
+                || body.msRequestPointerLock;
+            if (method) {
+                method.call(body);
+            } else {
+                console.warn("The browser is not support requestPointerLock");
+            }
+        },
+        requestFullScreen() {
+            const element = this.screenContainer;
+            const method = element.requestFullscreen
+                || element.mozRequestFullScreen
+                || element.webkitRequestFullscreen
+                || element.msRequestFullscreen;
+            if (method) {
+                method.call(element);
+            } else {
+                console.warn("The browser is not support requestFullscreen");
+            }
+        },
+        requestExitFullScreen() {
+            const method = document.exitFullscreen
+                || document.mozCancelFullScreen
+                || document.webkitExitFullscreen
+                || document.msExitFullscreen;
+            if (method) {
+                method.call(document);
+            } else {
+                console.warn("The browser is not support exitFullscreen");
+            }
         },
         saveFile() {
             if (!this.emulator) {
@@ -73,12 +135,18 @@ var app = new Vue({
 
                 // ToDo: File reset
             }
-        }
+        },
+        handleClickOnBox() {
+            if (this.emulatorExtendedInfo.mouseEnabled) {
+                this.lockMouse();
+            }
+        },
     },
     mounted() {
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
-        this.boot(baseProfile);
+        const machine = this.boot(baseProfile);
+        this.setupMachineEventListener(machine);
     }
 });
