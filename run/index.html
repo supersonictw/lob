@@ -29,7 +29,7 @@
 	</div>
 
 	<div id="console" class="container">
-		<div id="screen-box" class="card mb-4 shadow-sm" @click="handleClickOnBox">
+		<div id="screen-box" class="card mb-4 shadow-sm" @click="documentHandleClickBox">
 			<div id="screen-container" ref="screenContainer">
 				<div id="screen"></div>
 				<canvas id="vga"></canvas>
@@ -38,12 +38,14 @@
 
 		<div class="d-flex justify-content-between mb-3">
 			<div class="power-box">
-				<button class="btn btn-success">Pause</button>
-				<button class="btn btn-warning">Reset</button>
+				<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
+				<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
 				<button class="btn btn-danger">Exit</button>
 			</div>
-
-			<div class="dropdown">
+			<div class="misc-box">
+				<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
+			</div>
+			<div class="options-box dropdown">
 				<button class="btn btn-primary dropdown-toggle mb-3">
 					Options
 				</button>
