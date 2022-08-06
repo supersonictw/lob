@@ -11,6 +11,9 @@ jobs:
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.1
+      - name: Update REV code 💫
+        run: |
+          sed -i "s/__REV__/$(date +%s)/g" public/run/index.html
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
