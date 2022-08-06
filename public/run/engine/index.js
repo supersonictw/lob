@@ -26,9 +26,6 @@ const app = new Vue({
         },
     }),
     computed: {
-        screenContainer() {
-            return this.$refs.screenContainer;
-        },
         emulatorEventMethods() {
             return [
                 {
@@ -61,7 +58,7 @@ const app = new Vue({
             // Setup Network Relay
             system.network_relay_url = "wss://relay.widgetry.org/";
             // Setup Screen Container
-            system.screen_container = this.screenContainer;
+            system.screen_container = this.$refs.screenContainer;
             // Setup Auto Start
             system.autostart = true;
             // Mount Machine
@@ -127,7 +124,7 @@ const app = new Vue({
             }
         },
         documentRequestFullScreen() {
-            const element = this.screenContainer;
+            const element = this.$refs.screenContainer;
             const method = element.requestFullscreen
                 || element.mozRequestFullScreen
                 || element.webkitRequestFullscreen

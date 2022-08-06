@@ -26,7 +26,7 @@
     white-space: pre-wrap;
 }
 
-#intro_box {
+#intro-box {
     display: inline-block;
     word-break: break-word;
     width: 500px;
