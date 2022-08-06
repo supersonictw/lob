@@ -13,17 +13,15 @@ var app = new Vue({
                 cdrom: {
                     url: "./images/system.iso",
                     size: 37748736,
-                },
-                autostart: true,
+                }
             },
             vanilla: {
                 memory_size: 8 * 1024 * 1024,
                 vga_memory_size: 2 * 1024 * 1024,
                 cdrom: {
                     url: "./images/vanilla.iso",
-                    size: 37748736,
-                },
-                autostart: true,
+                    size: 8638464,
+                }
             }
         },
     }),
@@ -56,8 +54,10 @@ var app = new Vue({
             };
             // Setup Network Relay
             system.network_relay_url = "wss://relay.widgetry.org/";
-            // Screen Container
+            // Setup Screen Container
             system.screen_container = this.screenContainer;
+            // Setup Auto Start
+            system.autostart = true;
             // Mount Machine
             this.emulator = new V86Starter(system);
             // Return Machine
@@ -148,5 +148,5 @@ var app = new Vue({
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
         const machine = this.boot(baseProfile);
         this.setupMachineEventListener(machine);
-    }
+    },
 });
