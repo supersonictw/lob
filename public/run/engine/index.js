@@ -1,7 +1,7 @@
 // LOB Engine
 // (c) 2022 SuperSonic (https://github.com/supersonictw)
 
-var app = new Vue({
+const app = new Vue({
     el: '#console',
     data: () => ({
         emulator: null,
@@ -36,12 +36,18 @@ var app = new Vue({
                     method: (isEnabled) => {
                         this.emulatorExtendedInfo.mouseEnabled = isEnabled;
                     }
-                }
+                },
+                {
+                    name: "emulator-stopped",
+                    method: () => {
+                        this.documentRequestExitFullScreen();
+                    }
+                },
             ];
         },
     },
     methods: {
-        boot(baseProfile) {
+        machineBoot(baseProfile) {
             const system = { ...baseProfile };
             // Setup WASM
             system.wasm_path = "./engine/v86.wasm";
@@ -63,12 +69,52 @@ var app = new Vue({
             // Return Machine
             return this.emulator;
         },
-        setupMachineEventListener(machine) {
+        machineSetupEventListener(machine) {
             for (const e of this.emulatorEventMethods) {
                 machine.add_listener(e.name, e.method);
             }
         },
-        lockMouse() {
+        machineStateSave(machine) {
+            machine.save_state(function (error, new_state) {
+                if (error) {
+                    throw error;
+                }
+
+                const a = document.createElement("a");
+                a.download = "v86state.bin";
+                a.href = window.URL.createObjectURL(new Blob([new_state]));
+                a.dataset.downloadurl = "application/octet-stream:" + a.download + ":" + a.href;
+                a.click();
+            });
+        },
+        machineStateRestore(machine) {
+            if (this.files.length) {
+                const filereader = new FileReader();
+                machine.stop();
+
+                filereader.onload = function (e) {
+                    machine.restore_state(e.target.result);
+                    machine.run();
+                };
+
+                filereader.readAsArrayBuffer(this.files[0]);
+
+                // ToDo: File reset
+            }
+        },
+        machinePowerPause(machine) {
+            if (!this.emulatorExtendedInfo.isPaused) {
+                machine.stop();
+                this.emulatorExtendedInfo.isPaused = true;
+            } else {
+                machine.run();
+                this.emulatorExtendedInfo.isPaused = false;
+            }
+        },
+        machinePowerReset(machine) {
+            machine.restart();
+        },
+        documentLockMouse() {
             const body = document.body;
             const method = body.requestPointerLock
                 || body.mozRequestPointerLock
@@ -80,7 +126,7 @@ var app = new Vue({
                 console.warn("The browser is not support requestPointerLock");
             }
         },
-        requestFullScreen() {
+        documentRequestFullScreen() {
             const element = this.screenContainer;
             const method = element.requestFullscreen
                 || element.mozRequestFullScreen
@@ -92,7 +138,7 @@ var app = new Vue({
                 console.warn("The browser is not support requestFullscreen");
             }
         },
-        requestExitFullScreen() {
+        documentRequestExitFullScreen() {
             const method = document.exitFullscreen
                 || document.mozCancelFullScreen
                 || document.webkitExitFullscreen
@@ -103,50 +149,26 @@ var app = new Vue({
                 console.warn("The browser is not support exitFullscreen");
             }
         },
-        saveFile() {
-            if (!this.emulator) {
-                console.error('No emulator loaded');
-                return;
-            }
-
-            this.emulator.save_state(function (error, new_state) {
-                if (error) {
-                    throw error;
-                }
-
-                var a = document.createElement("a");
-                a.download = "v86state.bin";
-                a.href = window.URL.createObjectURL(new Blob([new_state]));
-                a.dataset.downloadurl = "application/octet-stream:" + a.download + ":" + a.href;
-                a.click();
-            });
-        },
-        restoreFile() {
-            if (this.files.length) {
-                var filereader = new FileReader();
-                this.emulator.stop();
-
-                filereader.onload = function (e) {
-                    this.emulator.restore_state(e.target.result);
-                    this.emulator.run();
-                };
-
-                filereader.readAsArrayBuffer(this.files[0]);
-
-                // ToDo: File reset
-            }
-        },
-        handleClickOnBox() {
+        documentHandleClickBox() {
             if (this.emulatorExtendedInfo.mouseEnabled) {
-                this.lockMouse();
+                this.documentLockMouse();
             }
         },
+        documentHandleClickButtonPause() {
+            this.machinePowerPause(this.emulator);
+        },
+        documentHandleClickButtonReset() {
+            this.machinePowerReset(this.emulator);
+        },
+        documentHandleClickButtonFullScreen() {
+            this.documentRequestFullScreen();
+        }
     },
     mounted() {
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
-        const machine = this.boot(baseProfile);
-        this.setupMachineEventListener(machine);
+        const machine = this.machineBoot(baseProfile);
+        this.machineSetupEventListener(machine);
     },
 });
