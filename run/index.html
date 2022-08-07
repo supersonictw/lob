@@ -5,11 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css?rev=1659858031" rel="stylesheet">
-	<link href="../css/style.css?rev=1659858031" rel="stylesheet">
-	<script src="engine/vue.min.js?rev=1659858031"></script>
-	<script src="engine/libv86.js?rev=1659858031"></script>
-	<script src="engine/index.js?rev=1659858031" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659859495" rel="stylesheet">
+	<link href="../css/style.css?rev=1659859495" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659859495"></script>
+	<script src="engine/libv86.js?rev=1659859495"></script>
+	<script src="engine/index.js?rev=1659859495" async defer></script>
 </head>
 
 <body>
@@ -71,10 +71,13 @@
 					<div class="misc-box">
 						<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
 					</div>
-					<div class="options-box dropdown">
-						<button class="btn btn-primary dropdown-toggle mb-3">
+					<div class="options-box dropdown dropup">
+						<button class="btn btn-primary dropdown-toggle" @click="documentHandleClickButtonOptions">
 							Options
 						</button>
+						<div class="dropdown-menu" :style="optionsMenuStyle">
+							<button class="dropdown-item" @click="documentHandleClickButtonOptionsSave">Save State</a>
+						</div>
 					</div>
 				</div>
 			</div>
