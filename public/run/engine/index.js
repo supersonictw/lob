@@ -114,6 +114,9 @@ const app = new Vue({
                 'd-block': this.isShowRestoreModal,
             };
         },
+        emulatorScreenInfo() {
+            return this.emulator.v86.cpu.devices.vga.stats;
+        },
         emulatorEventMethods() {
             return [
                 {
@@ -166,6 +169,18 @@ const app = new Vue({
                     name: "mouse-enable",
                     method: (isEnabled) => {
                         this.emulatorExtendedInfo.mouseEnabled = isEnabled;
+                    }
+                },
+                {
+                    name: "screen-set-mode",
+                    method: () => {
+                        this.documentResizeScreen();
+                    }
+                },
+                {
+                    name: "screen-set-size-graphical",
+                    method: () => {
+                        this.documentResizeScreen();
                     }
                 },
                 {
@@ -266,7 +281,20 @@ const app = new Vue({
         },
         documentResizeScreen() {
             if (!this.isEmulatorRunning) return;
-            const scale = this.$refs.screenContainer.clientWidth / 1024;
+            if (!this.emulatorScreenInfo.is_graphical) {
+                this.machineScreenSetScale(this.emulator, 1);
+            }
+            const documentScreen = {
+                width: this.$refs.screenContainer.clientWidth || 1,
+                height: this.$refs.screenContainer.clientHeight || 1,
+            };
+            const emulatorScreen = {
+                width: this.emulatorScreenInfo.res_x || 1,
+                height: this.emulatorScreenInfo.res_y || 1,
+            };
+            const widthScale = documentScreen.width / emulatorScreen.width;
+            const heightScale = documentScreen.height / emulatorScreen.height;
+            const scale = Math.min(widthScale, heightScale);
             this.machineScreenSetScale(this.emulator, scale);
         },
         documentLockMouse() {
