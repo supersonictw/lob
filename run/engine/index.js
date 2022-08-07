@@ -307,6 +307,10 @@ const app = new Vue({
         documentHandleClickButtonOptions() {
             this.isShowOptionsMenu = !this.isShowOptionsMenu;
         },
+        documentHandleClickButtonOptionsCallSmartphoneVirtualKeyboard() {
+            this.$refs.virtualKeyboardCaller.focus();
+            this.isShowOptionsMenu = false;
+        },
         documentHandleClickButtonOptionsRestore() {
             this.isShowRestoreModal = true;
             this.isShowOptionsMenu = false;
