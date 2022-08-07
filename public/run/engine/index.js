@@ -75,6 +75,15 @@ const app = new Vue({
                 width: this.progressPercentageString
             };
         },
+        powerPauseText() {
+            return this.emulatorExtendedInfo.isPaused ? "Resume" : "Pause";
+        },
+        powerResetText() {
+            return "Reset";
+        },
+        powerPowerText() {
+            return this.isEmulatorRunning ? "Power OFF" : "Power ON";
+        },
         operationBoxClass() {
             return {
                 'fade': true,

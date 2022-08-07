@@ -70,9 +70,15 @@
 			<div :class="operationBoxClass">
 				<div class="d-flex justify-content-between mb-3">
 					<div class="power-box">
-						<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
-						<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
-						<button class="btn btn-danger" @click="documentHandleClickButtonPower">Power</button>
+						<button class="btn btn-success" @click="documentHandleClickButtonPause" v-text="powerPauseText"
+							:disabled="!isEmulatorRunning">
+						</button>
+						<button class="btn btn-warning" @click="documentHandleClickButtonReset" v-text="powerResetText"
+							:disabled="this.emulatorExtendedInfo.isPaused">
+						</button>
+						<button class="btn btn-danger" @click="documentHandleClickButtonPower" v-text="powerPowerText"
+							:disabled="this.emulatorExtendedInfo.isPaused">
+						</button>
 					</div>
 					<div class="misc-box">
 						<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
