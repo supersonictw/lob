@@ -74,7 +74,7 @@ const app = new Vue({
                             this.progressState = "Download completed, click power button to start";
                             setTimeout(() => {
                                 this.progressTicks = -1;
-                            }, 1000);
+                            }, 3000);
                             return;
                         }
 
