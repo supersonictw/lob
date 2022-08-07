@@ -37,7 +37,7 @@
 
 #screen-box {
   width: auto;
-  min-height: 630px;
+  min-height: auto;
   overflow: scroll;
   background-color: black;
 }
