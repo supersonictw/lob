@@ -183,10 +183,16 @@ const app = new Vue({
             const state = await machine.save_state();
             const stateObject = new Blob([state]);
             // Get current datetime string
-            const datetime = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]');
+            const timezone = dayjs().format("ZZ");
+            const reformatTimezone = timezone.startsWith("+")
+                ? timezone.replace("+", "P")
+                : timezone.replace("-", "N");
+            const datetime = dayjs().format(
+                `YYYY-MM-DDTHH-mm-ss[${reformatTimezone}][Z]`
+            );
             // Create virtual download link
             const a = document.createElement("a");
-            a.download = `lobState-${datetime}.bin`;
+            a.download = `lobState_${datetime}.bin`;
             a.href = window.URL.createObjectURL(stateObject);
             a.dataset.downloadurl = `application/octet-stream:${a.download}:${a.href}`;
             // Trigger virtual download link
