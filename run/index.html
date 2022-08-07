@@ -5,11 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css?rev=1659860368" rel="stylesheet">
-	<link href="../css/style.css?rev=1659860368" rel="stylesheet">
-	<script src="engine/vue.min.js?rev=1659860368"></script>
-	<script src="engine/libv86.js?rev=1659860368"></script>
-	<script src="engine/index.js?rev=1659860368" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659864823" rel="stylesheet">
+	<link href="../css/style.css?rev=1659864823" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659864823"></script>
+	<script src="engine/libv86.js?rev=1659864823"></script>
+	<script src="engine/index.js?rev=1659864823" async defer></script>
 </head>
 
 <body>
@@ -26,6 +26,7 @@
 			<a class="btn btn-outline-primary" href="https://github.com/supersonictw/lob">GitHub</a>
 		</div>
 
+		<!-- Start Banner -->
 		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
 			<h1 class="lead">Deploy your Linux on Browser!</h1>
 			<div class="mx-5 my-3" v-show="isShowProgressBar">
@@ -37,7 +38,9 @@
 				<div class="text-muted" v-text="progressState"></div>
 			</div>
 		</div>
+		<!-- End Banner -->
 
+		<!-- Start Screen -->
 		<div class="container">
 			<div id="screen-box" class="card mb-4 shadow-sm" @click="documentHandleClickBox">
 				<div id="screen-container" ref="screenContainer" v-show="isEmulatorRunning">
@@ -60,8 +63,10 @@
 					</div>
 				</div>
 			</div>
+			<!-- End Screen -->
 
-			<div v-show="isEmulatorRunning">
+			<!-- Start OperationBox -->
+			<div :class="operationBoxClass">
 				<div class="d-flex justify-content-between mb-3">
 					<div class="power-box">
 						<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
@@ -75,13 +80,52 @@
 						<button class="btn btn-primary dropdown-toggle" @click="documentHandleClickButtonOptions">
 							Options
 						</button>
-						<div class="dropdown-menu" :style="optionsMenuStyle">
-							<button class="dropdown-item" @click="documentHandleClickButtonOptionsRestore">Import State</a>
-							<button class="dropdown-item" @click="documentHandleClickButtonOptionsSave">Export State</a>
+						<div :class="optionsMenuClass">
+							<button class="dropdown-item" @click="documentHandleClickButtonOptionsRestore">
+								Import State
+							</button>
+							<button class="dropdown-item" @click="documentHandleClickButtonOptionsSave">
+								Export State
+							</button>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!-- End OperationBox -->
+
+			<!-- Start RestoreModal -->
+			<div :class="restoreModalClass">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="exampleModalLongTitle">Import State</h5>
+							<button type="button" class="close">
+								<span>&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div v-if="isShowRestoreModal">
+								<input type="file" class="form-control" @change="documentHandleChangeRestoreFile" />
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								@click="documentHandleClickButtonRestoreCancel">
+								Cancel
+							</button>
+							<button type="button" class="btn btn-primary"
+								@click="documentHandleClickButtonRestoreImport">
+								Import
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- End RestoreModal -->
+
+			<!-- Start ModalBackdrop -->
+			<div v-if="isShowModal" class="modal-backdrop fade show"></div>
+			<!-- End ModalBackdrop -->
 		</div>
 	</div>
 
