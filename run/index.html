@@ -5,11 +5,11 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css" rel="stylesheet">
-	<link href="../css/style.css" rel="stylesheet">
-	<script src="engine/vue.min.js"></script>
-	<script src="engine/libv86.js?rev=1659772591"></script>
-	<script src="engine/index.js?rev=1659772591" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659853136" rel="stylesheet">
+	<link href="../css/style.css?rev=1659853136" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659853136"></script>
+	<script src="engine/libv86.js?rev=1659853136"></script>
+	<script src="engine/index.js?rev=1659853136" async defer></script>
 </head>
 
 <body>
@@ -30,25 +30,42 @@
 
 	<div id="console" class="container">
 		<div id="screen-box" class="card mb-4 shadow-sm" @click="documentHandleClickBox">
-			<div id="screen-container" ref="screenContainer">
+			<div id="screen-container" ref="screenContainer" v-show="isEmulatorRunning">
 				<div id="screen"></div>
 				<canvas id="vga" class="mx-auto"></canvas>
+				<div id="virtual-keyboard-caller-box">
+					<textarea id="virtual-keyboard-caller"></textarea>
+				</div>
+			</div>
+			<div v-show="!isEmulatorRunning">
+				<div class="w-full text-center">
+					<button class="btn btn-primary" @click="documentHandleClickButtonPower">
+						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+							class="bi bi-power" viewBox="0 0 16 16">
+							<path d="M7.5 1v7h1V1h-1z" />
+							<path
+								d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
+						</svg>
+					</button>
+				</div>
 			</div>
 		</div>
 
-		<div class="d-flex justify-content-between mb-3">
-			<div class="power-box">
-				<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
-				<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
-				<button class="btn btn-danger">Exit</button>
-			</div>
-			<div class="misc-box">
-				<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
-			</div>
-			<div class="options-box dropdown">
-				<button class="btn btn-primary dropdown-toggle mb-3">
-					Options
-				</button>
+		<div v-show="isEmulatorRunning">
+			<div class="d-flex justify-content-between mb-3">
+				<div class="power-box">
+					<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
+					<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
+					<button class="btn btn-danger" @click="documentHandleClickButtonPower">Power</button>
+				</div>
+				<div class="misc-box">
+					<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
+				</div>
+				<div class="options-box dropdown">
+					<button class="btn btn-primary dropdown-toggle mb-3">
+						Options
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>

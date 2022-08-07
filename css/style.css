@@ -1,54 +1,73 @@
 .logo {
-    width: auto;
-    padding-top: 10px;
-    max-height: 150px;
+  width: auto;
+  padding-top: 10px;
+  max-height: 150px;
 }
 
 .mini-logo {
-    max-width: 10%;
-    height: auto;
+  max-width: 10%;
+  height: auto;
 }
 
 .bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
+  font-size: 1.125rem;
+  text-anchor: middle;
 }
 
 .row {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-wrap: wrap;
-    flex-wrap: wrap;
-    margin: auto;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin: auto;
 }
 
 #loading {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 #intro-box {
-    display: inline-block;
-    word-break: break-word;
-    width: 500px;
-    height: auto;
-    margin: 0 auto;
-    text-align: left;
+  display: inline-block;
+  word-break: break-word;
+  width: 500px;
+  height: auto;
+  margin: 0 auto;
+  text-align: left;
 }
 
 #screen-box {
-    width: auto;
-    min-height: 630px;
-    overflow: scroll;
-    background-color: black;
+  width: auto;
+  min-height: 630px;
+  overflow: scroll;
+  background-color: black;
 }
 
 #screen-container {
-    background-color: black;
-    text-align: left;
+  background-color: black;
+  text-align: left;
+}
+
+#virtual-keyboard-caller-box {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+
+#virtual-keyboard-caller {
+  width: 0;
+  height: 0;
+  resize: none;
+  position: absolute;
+  opacity: 0;
+  left: -9999em;
+  top: 0;
+  z-index: -10;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
+  .bd-placeholder-img-lg {
+    font-size: 3.5rem;
+  }
 }
