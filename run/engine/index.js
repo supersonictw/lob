@@ -156,7 +156,7 @@ const app = new Vue({
         machineSetup(baseProfile) {
             const system = { ...baseProfile };
             // Setup WASM
-            system.wasm_path = "./engine/v86.wasm";
+            system.wasm_path = "./engine/v86/v86.wasm";
             // Setup BIOS
             system.bios = {
                 url: "./bios/seabios.bin",
@@ -182,9 +182,11 @@ const app = new Vue({
             // Save the state of the machine
             const state = await machine.save_state();
             const stateObject = new Blob([state]);
+            // Get current datetime string
+            const datetime = dayjs().format('YYYY-MM-DDTHH:mm:ssZ[Z]');
             // Create virtual download link
             const a = document.createElement("a");
-            a.download = "v86state.bin";
+            a.download = `lobState-${datetime}.bin`;
             a.href = window.URL.createObjectURL(stateObject);
             a.dataset.downloadurl = `application/octet-stream:${a.download}:${a.href}`;
             // Trigger virtual download link
