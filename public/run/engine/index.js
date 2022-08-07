@@ -296,6 +296,7 @@ const app = new Vue({
         },
         documentHandleClickButtonOptionsSave() {
             this.machineStateSave(this.emulator);
+            this.isShowOptionsMenu = false;
         },
         documentHandleClickButtonRestoreCancel() {
             this.restoreFile = null;
