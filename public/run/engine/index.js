@@ -4,6 +4,8 @@
 const app = new Vue({
     el: '#console',
     data: () => ({
+        progressTicks: -1,
+        progressState: 'Downloading...',
         emulator: null,
         emulatorExtendedInfo: {
             isPaused: false,
@@ -36,8 +38,67 @@ const app = new Vue({
         isInFullScreen() {
             return !!document.fullscreenElement;
         },
+        isShowProgressBar() {
+            return this.progressTicks >= 0;
+        },
+        progressPercentage() {
+            const progressValue = this.progressTicks < 1
+                ? this.progressTicks
+                : 1;
+            return progressValue * 100;
+        },
+        progressPercentageString() {
+            const value = this.progressPercentage;
+            return `${value.toFixed(0)}%`;
+        },
+        progressBarStyle() {
+            return {
+                width: this.progressPercentageString
+            };
+        },
         emulatorEventMethods() {
             return [
+                {
+                    name: "download-progress",
+                    method: (e) => {
+                        this.progressTicks = 0;
+
+                        if (e.file_name.endsWith(".wasm")) {
+                            const filenameRaw = e.file_name.split("/");
+                            const filename = filenameRaw[filenameRaw.length - 1];
+                            this.progressState = `Fetching "${filename}" ...`;
+                            return;
+                        }
+
+                        if (e.file_index === e.file_count - 1 && e.loaded >= e.total - 2048) {
+                            this.progressState = "Download completed, click power button to start";
+                            setTimeout(() => {
+                                this.progressTicks = -1;
+                            }, 1000);
+                            return;
+                        }
+
+                        if (typeof e.file_index === "number" && e.file_count) {
+                            this.progressState = `Downloading images (${e.file_index + 1}/${e.file_count}) ...`;
+                        }
+
+                        if (e.total && typeof e.loaded === "number") {
+                            this.progressTicks = e.loaded / e.total;
+                        } else {
+                            this.progressState += ".".repeat(progress_ticks++ % 50);
+                        }
+                    }
+                },
+                {
+                    name: "download-error",
+                    method: (e) => {
+                        this.progressTicks = 0;
+                        this.progressState = `
+                            Error: Loading "${e.file_name}" failed.
+                            Check your connection and reload the page to try again later.
+                        `;
+                    }
+                },
                 {
                     name: "mouse-enable",
                     method: (isEnabled) => {

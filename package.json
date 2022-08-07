@@ -6,6 +6,6 @@
     "serve": "^14.0.1"
   },
   "scripts": {
-    "start": "serve public/"
+    "start": "node_modules/.bin/serve public/"
   }
 }

@@ -13,58 +13,69 @@
 </head>
 
 <body>
-	<div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
-		<h5 class="my-0 mr-md-auto font-weight-normal">
-			<a class="text-dark" href="https://randychen.tk/lob/">LinuxOnBrowser</a>
-		</h5>
-		<nav class="my-2 my-md-0 mr-md-3">
-			<a class="p-2 text-dark" href="./">Console</a>
-			<a class="p-2 text-dark" href="../">About</a>
-		</nav>
-		<a class="btn btn-outline-primary" href="https://github.com/supersonictw/lob">GitHub</a>
-	</div>
+	<div id="console">
+		<div
+			class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
+			<h5 class="my-0 mr-md-auto font-weight-normal">
+				<a class="text-dark" href="https://randychen.tk/lob/">LinuxOnBrowser</a>
+			</h5>
+			<nav class="my-2 my-md-0 mr-md-3">
+				<a class="p-2 text-dark" href="./">Console</a>
+				<a class="p-2 text-dark" href="../">About</a>
+			</nav>
+			<a class="btn btn-outline-primary" href="https://github.com/supersonictw/lob">GitHub</a>
+		</div>
 
-	<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-		<h1 class="lead">Deploy your Linux on Browser!</h1>
-	</div>
-
-	<div id="console" class="container">
-		<div id="screen-box" class="card mb-4 shadow-sm" @click="documentHandleClickBox">
-			<div id="screen-container" ref="screenContainer" v-show="isEmulatorRunning">
-				<div id="screen"></div>
-				<canvas id="vga" class="mx-auto"></canvas>
-				<div id="virtual-keyboard-caller-box">
-					<textarea id="virtual-keyboard-caller"></textarea>
+		<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+			<h1 class="lead">Deploy your Linux on Browser!</h1>
+			<div class="mx-5 my-3" v-show="isShowProgressBar">
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" :style="progressBarStyle"
+						v-text="progressPercentageString">
+					</div>
 				</div>
-			</div>
-			<div v-show="!isEmulatorRunning">
-				<div class="w-full text-center">
-					<button class="btn btn-primary" @click="documentHandleClickButtonPower">
-						<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
-							class="bi bi-power" viewBox="0 0 16 16">
-							<path d="M7.5 1v7h1V1h-1z" />
-							<path
-								d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
-						</svg>
-					</button>
-				</div>
+				<div class="text-muted" v-text="progressState"></div>
 			</div>
 		</div>
 
-		<div v-show="isEmulatorRunning">
-			<div class="d-flex justify-content-between mb-3">
-				<div class="power-box">
-					<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
-					<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
-					<button class="btn btn-danger" @click="documentHandleClickButtonPower">Power</button>
+		<div class="container">
+			<div id="screen-box" class="card mb-4 shadow-sm" @click="documentHandleClickBox">
+				<div id="screen-container" ref="screenContainer" v-show="isEmulatorRunning">
+					<div id="screen"></div>
+					<canvas id="vga" class="mx-auto"></canvas>
+					<div id="virtual-keyboard-caller-box">
+						<textarea id="virtual-keyboard-caller"></textarea>
+					</div>
 				</div>
-				<div class="misc-box">
-					<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
+				<div v-show="!isEmulatorRunning">
+					<div class="w-full text-center">
+						<button class="btn btn-primary" @click="documentHandleClickButtonPower">
+							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+								class="bi bi-power" viewBox="0 0 16 16">
+								<path d="M7.5 1v7h1V1h-1z" />
+								<path
+									d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
+							</svg>
+						</button>
+					</div>
 				</div>
-				<div class="options-box dropdown">
-					<button class="btn btn-primary dropdown-toggle mb-3">
-						Options
-					</button>
+			</div>
+
+			<div v-show="isEmulatorRunning">
+				<div class="d-flex justify-content-between mb-3">
+					<div class="power-box">
+						<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
+						<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
+						<button class="btn btn-danger" @click="documentHandleClickButtonPower">Power</button>
+					</div>
+					<div class="misc-box">
+						<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
+					</div>
+					<div class="options-box dropdown">
+						<button class="btn btn-primary dropdown-toggle mb-3">
+							Options
+						</button>
+					</div>
 				</div>
 			</div>
 		</div>
