@@ -5,12 +5,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css?rev=1659868357" rel="stylesheet">
-	<link href="../css/style.css?rev=1659868357" rel="stylesheet">
-	<script src="engine/vue.min.js?rev=1659868357"></script>
-	<script src="engine/dayjs.min.js?rev=1659868357"></script>
-	<script src="engine/v86/libv86.js?rev=1659868357"></script>
-	<script src="engine/index.js?rev=1659868357" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659869126" rel="stylesheet">
+	<link href="../css/style.css?rev=1659869126" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659869126"></script>
+	<script src="engine/dayjs.min.js?rev=1659869126"></script>
+	<script src="engine/v86/libv86.js?rev=1659869126"></script>
+	<script src="engine/index.js?rev=1659869126" async defer></script>
 </head>
 
 <body>
@@ -70,9 +70,15 @@
 			<div :class="operationBoxClass">
 				<div class="d-flex justify-content-between mb-3">
 					<div class="power-box">
-						<button class="btn btn-success" @click="documentHandleClickButtonPause">Pause</button>
-						<button class="btn btn-warning" @click="documentHandleClickButtonReset">Reset</button>
-						<button class="btn btn-danger" @click="documentHandleClickButtonPower">Power</button>
+						<button class="btn btn-success" @click="documentHandleClickButtonPause" v-text="powerPauseText"
+							:disabled="!isEmulatorRunning">
+						</button>
+						<button class="btn btn-warning" @click="documentHandleClickButtonReset" v-text="powerResetText"
+							:disabled="this.emulatorExtendedInfo.isPaused">
+						</button>
+						<button class="btn btn-danger" @click="documentHandleClickButtonPower" v-text="powerPowerText"
+							:disabled="this.emulatorExtendedInfo.isPaused">
+						</button>
 					</div>
 					<div class="misc-box">
 						<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
