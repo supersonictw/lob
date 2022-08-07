@@ -5,7 +5,10 @@ const app = new Vue({
     el: '#console',
     data: () => ({
         emulator: null,
-        emulatorExtendedInfo: {},
+        emulatorExtendedInfo: {
+            isPaused: false,
+            mouseEnabled: false,
+        },
         systemProfile: {
             default: {
                 memory_size: 64 * 1024 * 1024,
@@ -26,6 +29,13 @@ const app = new Vue({
         },
     }),
     computed: {
+        isEmulatorRunning() {
+            if (this.emulatorExtendedInfo.isPaused) return true;
+            return this.emulator && this.emulator.is_running();
+        },
+        isInFullScreen() {
+            return !!document.fullscreenElement;
+        },
         emulatorEventMethods() {
             return [
                 {
@@ -37,14 +47,16 @@ const app = new Vue({
                 {
                     name: "emulator-stopped",
                     method: () => {
+                        if (!this.isInFullScreen) return;
                         this.documentRequestExitFullScreen();
+
                     }
                 },
             ];
         },
     },
     methods: {
-        machineBoot(baseProfile) {
+        machineSetup(baseProfile) {
             const system = { ...baseProfile };
             // Setup WASM
             system.wasm_path = "./engine/v86.wasm";
@@ -59,8 +71,6 @@ const app = new Vue({
             system.network_relay_url = "wss://relay.widgetry.org/";
             // Setup Screen Container
             system.screen_container = this.$refs.screenContainer;
-            // Setup Auto Start
-            system.autostart = true;
             // Mount Machine
             this.emulator = new V86Starter(system);
             // Return Machine
@@ -99,13 +109,21 @@ const app = new Vue({
                 // ToDo: File reset
             }
         },
-        machinePowerPause(machine) {
-            if (!this.emulatorExtendedInfo.isPaused) {
+        machinePowerBoot(machine) {
+            if (this.isEmulatorRunning) {
                 machine.stop();
-                this.emulatorExtendedInfo.isPaused = true;
+                machine.restart();
             } else {
                 machine.run();
+            }
+        },
+        machinePowerPause(machine) {
+            if (this.emulatorExtendedInfo.isPaused) {
+                machine.run();
                 this.emulatorExtendedInfo.isPaused = false;
+            } else {
+                machine.stop();
+                this.emulatorExtendedInfo.isPaused = true;
             }
         },
         machinePowerReset(machine) {
@@ -151,6 +169,9 @@ const app = new Vue({
                 this.documentLockMouse();
             }
         },
+        documentHandleClickButtonPower() {
+            this.machinePowerBoot(this.emulator);
+        },
         documentHandleClickButtonPause() {
             this.machinePowerPause(this.emulator);
         },
@@ -165,7 +186,7 @@ const app = new Vue({
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
-        const machine = this.machineBoot(baseProfile);
+        const machine = this.machineSetup(baseProfile);
         this.machineSetupEventListener(machine);
     },
 });
