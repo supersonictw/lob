@@ -7,6 +7,7 @@ const app = new Vue({
         isPowerPressed: false,
         isDownloadCompleted: false,
         isShowOptionsMenu: false,
+        isShowRestoreModal: false,
         progressTicks: -1,
         progressState: 'Downloading...',
         emulator: null,
@@ -14,6 +15,7 @@ const app = new Vue({
             isPaused: false,
             mouseEnabled: false,
         },
+        restoreFile: null,
         systemProfile: {
             default: {
                 memory_size: 64 * 1024 * 1024,
@@ -51,11 +53,8 @@ const app = new Vue({
         isShowProgressBar() {
             return this.progressTicks >= 0;
         },
-        optionsMenuStyle() {
-            const value = this.isShowOptionsMenu ? 'block' : 'none';
-            return {
-                display: `${value} !important`,
-            };
+        isShowModal() {
+            return this.isShowRestoreModal;
         },
         progressPercentage() {
             const progressValue = this.progressTicks < 1
@@ -70,6 +69,27 @@ const app = new Vue({
         progressBarStyle() {
             return {
                 width: this.progressPercentageString
+            };
+        },
+        operationBoxClass() {
+            return {
+                'fade': true,
+                'show': this.isEmulatorRunning,
+            };
+        },
+        optionsMenuClass() {
+            return {
+                'dropdown-menu': true,
+                'dropdown-menu-right': true,
+                'd-block': this.isShowOptionsMenu
+            };
+        },
+        restoreModalClass() {
+            return {
+                'modal': true,
+                'fade': true,
+                'show': this.isShowRestoreModal,
+                'd-block': this.isShowRestoreModal,
             };
         },
         emulatorEventMethods() {
@@ -127,7 +147,6 @@ const app = new Vue({
                     method: () => {
                         if (!this.isInFullScreen) return;
                         this.documentRequestExitFullScreen();
-
                     }
                 },
             ];
@@ -182,8 +201,6 @@ const app = new Vue({
             };
 
             filereader.readAsArrayBuffer(file);
-
-            // ToDo: File reset
         },
         machinePowerBoot(machine) {
             this.isPowerPressed = true;
@@ -242,6 +259,9 @@ const app = new Vue({
                 console.warn("The browser is not support exitFullscreen");
             }
         },
+        documentHandleChangeRestoreFile(e) {
+            this.restoreFile = e.target.files[0];
+        },
         documentHandleClickBox() {
             if (this.emulatorExtendedInfo.mouseEnabled) {
                 this.documentLockMouse();
@@ -263,10 +283,19 @@ const app = new Vue({
             this.isShowOptionsMenu = !this.isShowOptionsMenu;
         },
         documentHandleClickButtonOptionsRestore() {
-            // ToDo: Show RestoreModal
+            this.isShowRestoreModal = true;
+            this.isShowOptionsMenu = false;
         },
         documentHandleClickButtonOptionsSave() {
             this.machineStateSave(this.emulator);
+        },
+        documentHandleClickButtonRestoreCancel() {
+            this.restoreFile = null;
+            this.isShowRestoreModal = false;
+        },
+        documentHandleClickButtonRestoreImport() {
+            this.machineStateRestore(this.emulator, this.restoreFile);
+            this.isShowRestoreModal = false;
         }
     },
     mounted() {
