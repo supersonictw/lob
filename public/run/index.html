@@ -51,7 +51,7 @@
 						<textarea id="virtual-keyboard-caller"></textarea>
 					</div>
 				</div>
-				<div v-show="!isEmulatorRunning">
+				<div v-show="isShowInitPowerButton">
 					<div class="w-full text-center">
 						<button class="btn btn-primary" @click="documentHandleClickButtonPower">
 							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"

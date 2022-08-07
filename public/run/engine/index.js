@@ -9,7 +9,7 @@ const app = new Vue({
         isShowOptionsMenu: false,
         isShowRestoreModal: false,
         progressTicks: -1,
-        progressState: 'Downloading...',
+        progressState: "",
         emulator: null,
         emulatorExtendedInfo: {
             isPaused: false,
@@ -52,6 +52,10 @@ const app = new Vue({
         },
         isShowProgressBar() {
             return this.progressTicks >= 0;
+        },
+        isShowInitPowerButton() {
+            return (!this.isDownloadCompleted && !this.isPowerPressed)
+                || (this.isDownloadCompleted && !this.isEmulatorRunning);
         },
         isShowModal() {
             return this.isShowRestoreModal;
@@ -108,9 +112,13 @@ const app = new Vue({
 
                         if (e.file_index === e.file_count - 1 && e.loaded >= e.total - 2048) {
                             this.isDownloadCompleted = true;
-                            this.progressState = "Download completed! Click power button to start.";
+                            this.progressState = "Download completed!";
+                            if (!this.isPowerPressed) {
+                                this.progressState += " Click power button to start."
+                            }
                             setTimeout(() => {
                                 this.progressTicks = -1;
+                                this.progressState = "";
                             }, 3000);
                             return;
                         }
