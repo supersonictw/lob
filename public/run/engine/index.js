@@ -43,9 +43,9 @@ const app = new Vue({
                 this.machinePowerBoot(this.emulator);
             }, 500);
         },
-        virtualKeyboardBlackHole(e) {
-            if (e === "") return;
-            this.machineSendKeyboardText(this.emulator, e);
+        virtualKeyboardBlackHole(newValue) {
+            if (newValue === "") return;
+            this.machineSendKeyboardText(this.emulator, newValue);
             window.requestAnimationFrame(() => {
                 this.virtualKeyboardBlackHole = "";
             });
@@ -204,6 +204,9 @@ const app = new Vue({
                 machine.add_listener(e.name, e.method);
             }
         },
+        machineScreenSetScale(machine, scale) {
+            machine.screen_set_scale(scale);
+        },
         async machineStateSave(machine) {
             // Save the state of the machine
             const state = await machine.save_state();
@@ -260,6 +263,11 @@ const app = new Vue({
         },
         machinePowerReset(machine) {
             machine.restart();
+        },
+        documentResizeScreen() {
+            if (!this.isEmulatorRunning) return;
+            const scale = this.$refs.screenContainer.clientWidth / 1024;
+            this.machineScreenSetScale(this.emulator, scale);
         },
         documentLockMouse() {
             const body = document.body;
@@ -340,7 +348,14 @@ const app = new Vue({
             this.isShowRestoreModal = false;
         }
     },
+    created() {
+        window.addEventListener("resize", this.documentResizeScreen);
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.documentResizeScreen);
+    },
     mounted() {
+        this.documentResizeScreen();
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
