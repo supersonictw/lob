@@ -174,13 +174,13 @@ const app = new Vue({
                 {
                     name: "screen-set-mode",
                     method: () => {
-                        this.documentResizeScreen();
+                        this.documentHandleResizeScreen();
                     }
                 },
                 {
                     name: "screen-set-size-graphical",
                     method: () => {
-                        this.documentResizeScreen();
+                        this.documentHandleResizeScreen();
                     }
                 },
                 {
@@ -279,24 +279,6 @@ const app = new Vue({
         machinePowerReset(machine) {
             machine.restart();
         },
-        documentResizeScreen() {
-            if (!this.isEmulatorRunning) return;
-            if (!this.emulatorScreenInfo.is_graphical) {
-                this.machineScreenSetScale(this.emulator, 1);
-            }
-            const documentScreen = {
-                width: this.$refs.screenContainer.clientWidth || 1,
-                height: this.$refs.screenContainer.clientHeight || 1,
-            };
-            const emulatorScreen = {
-                width: this.emulatorScreenInfo.res_x || 1,
-                height: this.emulatorScreenInfo.res_y || 1,
-            };
-            const widthScale = documentScreen.width / emulatorScreen.width;
-            const heightScale = documentScreen.height / emulatorScreen.height;
-            const scale = Math.min(widthScale, heightScale);
-            this.machineScreenSetScale(this.emulator, scale);
-        },
         documentLockMouse() {
             const body = document.body;
             const method = body.requestPointerLock
@@ -331,6 +313,24 @@ const app = new Vue({
             } else {
                 console.warn("The browser is not support exitFullscreen");
             }
+        },
+        documentHandleResizeScreen() {
+            if (!this.isEmulatorRunning) return;
+            if (!this.emulatorScreenInfo.is_graphical) {
+                this.machineScreenSetScale(this.emulator, 1);
+            }
+            const documentScreen = {
+                width: this.$refs.screenContainer.clientWidth || 1,
+                height: this.$refs.screenContainer.clientHeight || 1,
+            };
+            const emulatorScreen = {
+                width: this.emulatorScreenInfo.res_x || 1,
+                height: this.emulatorScreenInfo.res_y || 1,
+            };
+            const widthScale = documentScreen.width / emulatorScreen.width;
+            const heightScale = documentScreen.height / emulatorScreen.height;
+            const scale = Math.min(widthScale, heightScale);
+            this.machineScreenSetScale(this.emulator, scale);
         },
         documentHandleChangeRestoreFile(e) {
             this.restoreFile = e.target.files[0];
@@ -377,13 +377,13 @@ const app = new Vue({
         }
     },
     created() {
-        window.addEventListener("resize", this.documentResizeScreen);
+        window.addEventListener("resize", this.documentHandleResizeScreen);
     },
     destroyed() {
-        window.removeEventListener("resize", this.documentResizeScreen);
+        window.removeEventListener("resize", this.documentHandleResizeScreen);
     },
     mounted() {
-        this.documentResizeScreen();
+        this.documentHandleResizeScreen();
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
