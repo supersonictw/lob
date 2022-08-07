@@ -4,6 +4,8 @@
 const app = new Vue({
     el: '#console',
     data: () => ({
+        isPowerPressed: false,
+        isDownloadCompleted: false,
         progressTicks: -1,
         progressState: 'Downloading...',
         emulator: null,
@@ -30,6 +32,13 @@ const app = new Vue({
             }
         },
     }),
+    watch: {
+        isDownloadCompleted(isCompleted) {
+            if (isCompleted && this.isPowerPressed) {
+                this.machinePowerBoot(this.emulator);
+            }
+        }
+    },
     computed: {
         isEmulatorRunning() {
             if (this.emulatorExtendedInfo.isPaused) return true;
@@ -71,6 +80,7 @@ const app = new Vue({
                         }
 
                         if (e.file_index === e.file_count - 1 && e.loaded >= e.total - 2048) {
+                            this.isDownloadCompleted = true;
                             this.progressState = "Download completed, click power button to start";
                             setTimeout(() => {
                                 this.progressTicks = -1;
@@ -171,6 +181,8 @@ const app = new Vue({
             }
         },
         machinePowerBoot(machine) {
+            this.isPowerPressed = true;
+            if (!this.isDownloadCompleted) return;
             if (this.isEmulatorRunning) {
                 machine.stop();
                 machine.restart();
