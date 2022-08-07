@@ -71,10 +71,13 @@
 					<div class="misc-box">
 						<button class="btn btn-info" @click="documentHandleClickButtonFullScreen">Full Screen</button>
 					</div>
-					<div class="options-box dropdown">
-						<button class="btn btn-primary dropdown-toggle mb-3">
+					<div class="options-box dropdown dropup">
+						<button class="btn btn-primary dropdown-toggle" @click="documentHandleClickButtonOptions">
 							Options
 						</button>
+						<div class="dropdown-menu" :style="optionsMenuStyle">
+							<button class="dropdown-item" @click="documentHandleClickButtonOptionsSave">Save State</a>
+						</div>
 					</div>
 				</div>
 			</div>

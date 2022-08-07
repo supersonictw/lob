@@ -6,6 +6,7 @@ const app = new Vue({
     data: () => ({
         isPowerPressed: false,
         isDownloadCompleted: false,
+        isShowOptionsMenu: false,
         progressTicks: -1,
         progressState: 'Downloading...',
         emulator: null,
@@ -50,6 +51,12 @@ const app = new Vue({
         isShowProgressBar() {
             return this.progressTicks >= 0;
         },
+        optionsMenuStyle() {
+            const value = this.isShowOptionsMenu ? 'block' : 'none';
+            return {
+                display: `${value} !important`,
+            };
+        },
         progressPercentage() {
             const progressValue = this.progressTicks < 1
                 ? this.progressTicks
@@ -81,7 +88,7 @@ const app = new Vue({
 
                         if (e.file_index === e.file_count - 1 && e.loaded >= e.total - 2048) {
                             this.isDownloadCompleted = true;
-                            this.progressState = "Download completed, click power button to start";
+                            this.progressState = "Download completed! Click power button to start.";
                             setTimeout(() => {
                                 this.progressTicks = -1;
                             }, 3000);
@@ -95,7 +102,7 @@ const app = new Vue({
                         if (e.total && typeof e.loaded === "number") {
                             this.progressTicks = e.loaded / e.total;
                         } else {
-                            this.progressState += ".".repeat(progress_ticks++ % 50);
+                            this.progressState += ".".repeat(this.progressTicks++ % 50);
                         }
                     }
                 },
@@ -152,33 +159,32 @@ const app = new Vue({
                 machine.add_listener(e.name, e.method);
             }
         },
-        machineStateSave(machine) {
-            machine.save_state(function (error, new_state) {
-                if (error) {
-                    throw error;
-                }
-
-                const a = document.createElement("a");
-                a.download = "v86state.bin";
-                a.href = window.URL.createObjectURL(new Blob([new_state]));
-                a.dataset.downloadurl = "application/octet-stream:" + a.download + ":" + a.href;
-                a.click();
-            });
+        async machineStateSave(machine) {
+            // Save the state of the machine
+            const state = machine.save_state();
+            const stateObject = new Blob([state]);
+            // Create virtual download link
+            const a = document.createElement("a");
+            a.download = "v86state.bin";
+            a.href = window.URL.createObjectURL(stateObject);
+            a.dataset.downloadurl = `application/octet-stream:${a.download}:${a.href}`;
+            // Trigger virtual download link
+            a.click();
         },
         machineStateRestore(machine) {
-            if (this.files.length) {
-                const filereader = new FileReader();
-                machine.stop();
+            if (this.files.length) return;
 
-                filereader.onload = function (e) {
-                    machine.restore_state(e.target.result);
-                    machine.run();
-                };
+            const filereader = new FileReader();
+            machine.stop();
 
-                filereader.readAsArrayBuffer(this.files[0]);
+            filereader.onload = function (e) {
+                machine.restore_state(e.target.result);
+                machine.run();
+            };
 
-                // ToDo: File reset
-            }
+            filereader.readAsArrayBuffer(this.files[0]);
+
+            // ToDo: File reset
         },
         machinePowerBoot(machine) {
             this.isPowerPressed = true;
@@ -253,6 +259,12 @@ const app = new Vue({
         },
         documentHandleClickButtonFullScreen() {
             this.documentRequestFullScreen();
+        },
+        documentHandleClickButtonOptions() {
+            this.isShowOptionsMenu = !this.isShowOptionsMenu;
+        },
+        documentHandleClickButtonOptionsSave() {
+            this.machineStateSave(this.emulator);
         }
     },
     mounted() {
