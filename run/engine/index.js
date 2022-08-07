@@ -161,7 +161,7 @@ const app = new Vue({
         },
         async machineStateSave(machine) {
             // Save the state of the machine
-            const state = machine.save_state();
+            const state = await machine.save_state();
             const stateObject = new Blob([state]);
             // Create virtual download link
             const a = document.createElement("a");
@@ -171,18 +171,17 @@ const app = new Vue({
             // Trigger virtual download link
             a.click();
         },
-        machineStateRestore(machine) {
-            if (this.files.length) return;
+        machineStateRestore(machine, file) {
+            machine.stop();
 
             const filereader = new FileReader();
-            machine.stop();
 
             filereader.onload = function (e) {
                 machine.restore_state(e.target.result);
                 machine.run();
             };
 
-            filereader.readAsArrayBuffer(this.files[0]);
+            filereader.readAsArrayBuffer(file);
 
             // ToDo: File reset
         },
@@ -262,6 +261,9 @@ const app = new Vue({
         },
         documentHandleClickButtonOptions() {
             this.isShowOptionsMenu = !this.isShowOptionsMenu;
+        },
+        documentHandleClickButtonOptionsRestore() {
+            // ToDo: Show RestoreModal
         },
         documentHandleClickButtonOptionsSave() {
             this.machineStateSave(this.emulator);
