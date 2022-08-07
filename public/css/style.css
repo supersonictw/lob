@@ -29,7 +29,7 @@
 #intro-box {
   display: inline-block;
   word-break: break-word;
-  width: 500px;
+  width: auto;
   height: auto;
   margin: 0 auto;
   text-align: left;
@@ -37,7 +37,7 @@
 
 #screen-box {
   width: auto;
-  min-height: auto;
+  min-height: 30px;
   overflow: scroll;
   background-color: black;
 }
