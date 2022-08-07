@@ -48,8 +48,8 @@
 					<div id="screen"></div>
 					<canvas id="vga" class="mx-auto"></canvas>
 					<div id="virtual-keyboard-caller-box">
-						<textarea id="virtual-keyboard-caller" autocorrect="off" autocapitalize="none"
-							spellcheck="false" tabindex="0"></textarea>
+						<textarea id="virtual-keyboard-caller" ref="virtualKeyboardCaller" autocorrect="off"
+							autocapitalize="none" spellcheck="false" tabindex="0"></textarea>
 					</div>
 				</div>
 				<div v-show="isShowInitPowerButton">
@@ -89,11 +89,15 @@
 							Options
 						</button>
 						<div :class="optionsMenuClass">
+							<button class="dropdown-item"
+								@click="documentHandleClickButtonOptionsCallSmartphoneVirtualKeyboard">
+								Show virtual keyboard of smartphone
+							</button>
 							<button class="dropdown-item" @click="documentHandleClickButtonOptionsRestore">
-								Import State
+								Import machine memory state
 							</button>
 							<button class="dropdown-item" @click="documentHandleClickButtonOptionsSave">
-								Export State
+								Export machine memory state
 							</button>
 						</div>
 					</div>
@@ -106,7 +110,7 @@
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLongTitle">Import State</h5>
+							<h5 class="modal-title" id="exampleModalLongTitle">Import Machine Memory State</h5>
 							<button type="button" class="close">
 								<span>&times;</span>
 							</button>

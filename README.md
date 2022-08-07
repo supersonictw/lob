@@ -8,6 +8,6 @@ This is a virtual machine running GNU/Linux on browser with the forked v86.js.
 
 - Using TinyCore with GUI and Kernel 5.x
 - Internet Connection Available
-- Import/Export State
+- Import/Export Machine Memory State
 - Beautiful UI
 - 100% OpenSource & Free
