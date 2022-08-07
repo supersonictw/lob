@@ -5,12 +5,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css?rev=1659867687" rel="stylesheet">
-	<link href="../css/style.css?rev=1659867687" rel="stylesheet">
-	<script src="engine/vue.min.js?rev=1659867687"></script>
-	<script src="engine/dayjs.min.js?rev=1659867687"></script>
-	<script src="engine/v86/libv86.js?rev=1659867687"></script>
-	<script src="engine/index.js?rev=1659867687" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659868357" rel="stylesheet">
+	<link href="../css/style.css?rev=1659868357" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659868357"></script>
+	<script src="engine/dayjs.min.js?rev=1659868357"></script>
+	<script src="engine/v86/libv86.js?rev=1659868357"></script>
+	<script src="engine/index.js?rev=1659868357" async defer></script>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
 						<textarea id="virtual-keyboard-caller"></textarea>
 					</div>
 				</div>
-				<div v-show="!isEmulatorRunning">
+				<div v-show="isShowInitPowerButton">
 					<div class="w-full text-center">
 						<button class="btn btn-primary" @click="documentHandleClickButtonPower">
 							<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
