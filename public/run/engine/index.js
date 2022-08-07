@@ -146,7 +146,7 @@ const app = new Vue({
                 url: "./bios/vgabios.bin",
             };
             // Setup Network Relay
-            system.network_relay_url = "wss://relay.widgetry.org/";
+            system.network_relay_url = system.network_relay_url || "wss://relay.widgetry.org/";
             // Setup Screen Container
             system.screen_container = this.$refs.screenContainer;
             // Mount Machine
@@ -273,6 +273,9 @@ const app = new Vue({
         const params = new URLSearchParams(window.location.search);
         const profileName = params.get("profile");
         const baseProfile = this.systemProfile[profileName] || this.systemProfile.default;
+        if (params.get("network_relay_url")) {
+            baseProfile.network_relay_url = params.get("network_relay_url");
+        }
         const machine = this.machineSetup(baseProfile);
         this.machineSetupEventListener(machine);
     },
