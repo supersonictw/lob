@@ -5,12 +5,12 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<title>LinuxOnBrowser</title>
-	<link href="../css/bootstrap.min.css?rev=1659870518" rel="stylesheet">
-	<link href="../css/style.css?rev=1659870518" rel="stylesheet">
-	<script src="engine/vue.min.js?rev=1659870518"></script>
-	<script src="engine/dayjs.min.js?rev=1659870518"></script>
-	<script src="engine/v86/libv86.js?rev=1659870518"></script>
-	<script src="engine/index.js?rev=1659870518" async defer></script>
+	<link href="../css/bootstrap.min.css?rev=1659872959" rel="stylesheet">
+	<link href="../css/style.css?rev=1659872959" rel="stylesheet">
+	<script src="engine/vue.min.js?rev=1659872959"></script>
+	<script src="engine/dayjs.min.js?rev=1659872959"></script>
+	<script src="engine/v86/libv86.js?rev=1659872959"></script>
+	<script src="engine/index.js?rev=1659872959" async defer></script>
 </head>
 
 <body>
@@ -48,8 +48,9 @@
 					<div id="screen"></div>
 					<canvas id="vga" class="mx-auto"></canvas>
 					<div id="virtual-keyboard-caller-box">
-						<textarea id="virtual-keyboard-caller" ref="virtualKeyboardCaller" autocorrect="off"
-							autocapitalize="none" spellcheck="false" tabindex="0"></textarea>
+						<textarea id="virtual-keyboard-caller" ref="virtualKeyboardCaller"
+							v-model="virtualKeyboardBlackHole" autocorrect="off" autocapitalize="none"
+							spellcheck="false" tabindex="0"></textarea>
 					</div>
 				</div>
 				<div v-show="isShowInitPowerButton">

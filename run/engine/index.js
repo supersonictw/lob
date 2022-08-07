@@ -16,6 +16,7 @@ const app = new Vue({
             mouseEnabled: false,
         },
         restoreFile: null,
+        virtualKeyboardBlackHole: "",
         systemProfile: {
             default: {
                 memory_size: 64 * 1024 * 1024,
@@ -38,9 +39,18 @@ const app = new Vue({
     watch: {
         isDownloadCompleted(isCompleted) {
             if (isCompleted && this.isPowerPressed) {
-                this.machinePowerBoot(this.emulator);
+                setTimeout(() => {
+                    this.machinePowerBoot(this.emulator);
+                }, 500)
             }
-        }
+        },
+        virtualKeyboardBlackHole(e) {
+            if (e === "") return;
+            this.machineSendKeyboardText(this.emulator, e);
+            window.requestAnimationFrame(() => {
+                this.virtualKeyboardBlackHole = "";
+            });
+        },
     },
     computed: {
         isEmulatorRunning() {
@@ -220,7 +230,7 @@ const app = new Vue({
 
             const filereader = new FileReader();
 
-            filereader.onload = function (e) {
+            filereader.onload = (e) => {
                 machine.restore_state(e.target.result);
                 machine.run();
             };
@@ -236,6 +246,9 @@ const app = new Vue({
             } else {
                 machine.run();
             }
+        },
+        machineSendKeyboardText(machine, text) {
+            machine.keyboard_send_text(text);
         },
         machinePowerPause(machine) {
             if (this.emulatorExtendedInfo.isPaused) {
