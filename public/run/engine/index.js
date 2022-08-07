@@ -38,11 +38,10 @@ const app = new Vue({
     }),
     watch: {
         isDownloadCompleted(isCompleted) {
-            if (isCompleted && this.isPowerPressed) {
-                setTimeout(() => {
-                    this.machinePowerBoot(this.emulator);
-                }, 500)
-            }
+            if (!isCompleted || !this.isPowerPressed) return;
+            setTimeout(() => {
+                this.machinePowerBoot(this.emulator);
+            }, 500);
         },
         virtualKeyboardBlackHole(e) {
             if (e === "") return;
