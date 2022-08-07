@@ -188,7 +188,7 @@ const app = new Vue({
                 ? timezone.replace("+", "P")
                 : timezone.replace("-", "N");
             const datetime = dayjs().format(
-                `YYYY-MM-DDTHH-mm-ss[${reformatTimezone}][Z]`
+                `YYYY-MM-DDTHH-mm-ss[${reformatTimezone}Z]`
             );
             // Create virtual download link
             const a = document.createElement("a");
