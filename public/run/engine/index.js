@@ -16,7 +16,7 @@ const app = new Vue({
             mouseEnabled: false,
         },
         restoreFile: null,
-        virtualKeyboardBlackHole: "",
+        virtualKeyboardBlackHole: " ",
         systemProfile: {
             default: {
                 memory_size: 64 * 1024 * 1024,
@@ -44,10 +44,16 @@ const app = new Vue({
             }, 500);
         },
         virtualKeyboardBlackHole(newValue) {
-            if (newValue === "") return;
-            this.machineSendKeyboardText(this.emulator, newValue);
+            if (newValue === " ") return;
+            if (newValue === "") {
+                const value = 0x00e; // Backspace
+                this.machineSendKeyboardCode(this.emulator, value);
+            } else {
+                const value = newValue.substring(1);
+                this.machineSendKeyboardText(this.emulator, value);
+            }
             window.requestAnimationFrame(() => {
-                this.virtualKeyboardBlackHole = "";
+                this.virtualKeyboardBlackHole = " ";
             });
         },
     },
@@ -267,6 +273,9 @@ const app = new Vue({
         machineSendKeyboardText(machine, text) {
             machine.keyboard_send_text(text);
         },
+        machineSendKeyboardCode(machine, code) {
+            machine.bus.send("keyboard-code", code);
+        },
         machinePowerPause(machine) {
             if (this.emulatorExtendedInfo.isPaused) {
                 machine.run();
@@ -360,6 +369,9 @@ const app = new Vue({
             this.isShowOptionsMenu = false;
         },
         documentHandleClickButtonOptionsRestore() {
+            if (!this.emulatorExtendedInfo.isPaused) {
+                this.machinePowerPause(this.emulator);
+            }
             this.isShowRestoreModal = true;
             this.isShowOptionsMenu = false;
         },
@@ -368,10 +380,16 @@ const app = new Vue({
             this.isShowOptionsMenu = false;
         },
         documentHandleClickButtonRestoreCancel() {
+            if (this.emulatorExtendedInfo.isPaused) {
+                this.machinePowerPause(this.emulator);
+            }
             this.restoreFile = null;
             this.isShowRestoreModal = false;
         },
         documentHandleClickButtonRestoreImport() {
+            if (this.emulatorExtendedInfo.isPaused) {
+                this.machinePowerPause(this.emulator);
+            }
             this.machineStateRestore(this.emulator, this.restoreFile);
             this.isShowRestoreModal = false;
         }
