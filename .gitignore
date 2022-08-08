@@ -13,3 +13,7 @@
 
 # Dependency directories (remove the comment below to include it)
 node_modules/
+
+# IDE/Editor
+.vscode/
+.idea/
